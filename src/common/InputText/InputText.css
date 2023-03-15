@@ -8,3 +8,10 @@
     height: 2em;
     width: 14em;
 }
+
+.inputErrorDesign {
+
+    border: 0.2em solid red;
+
+
+}
