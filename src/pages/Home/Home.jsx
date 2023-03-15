@@ -6,19 +6,16 @@ import "./Home.css";
 export const Home = () => {
   // 1 - Primero siempre se comprueba el valor de los hooks
   const [credenciales, setCredenciales] = useState({
-    name: {
-      value: "",
-      validated: false,
-    },
-    surname: {
-      value: "",
-      validated: false,
-    },
-    email: {
-      value: "",
-      validated: false,
-    },
+    name: "",
+    surname: "",
+    email: "",
   });
+
+  const [valiCredenciales, setValiCredenciales] = useState({
+    nameVali: false,
+    surnameVali: false,
+    emailVali: false
+  })
 
   //Este hook consistirá en el lugar de guardado de mensajes de error, a priori estarán en comillas vacías
   const [credencialesError, setCredencialesError] = useState({
@@ -36,7 +33,7 @@ export const Home = () => {
 
     setCredenciales((prevState) => ({
       ...prevState,
-      [e.target.name.value]: e.target.value,
+      [e.target.name]: e.target.value,
       //Este método hace una copia del estado del componente con spread para no tener que mutar el estado original,
       //posteriormente, mediante la técnica de diccionario de JS, asignamos el valor del input que esté escribiendose
       //EN ESE MOMENTO a la parte correspondiente del Hook.
@@ -48,50 +45,55 @@ export const Home = () => {
   // 3 - Ejecutamos los useEffect
 
   useEffect(() => {
-    //Este useEffect se va a ejecutar SIEMPRE que hayan cambios en el hook credenciales
-    // console.log("Credenciales ahora vale......", credenciales);
+ 
 
-    console.log(credenciales);
-
-    for (let errorFound in credenciales) {
-      console.log(credenciales[errorFound].validated);
-      if (credenciales[errorFound].validated === false) {
+    for(let error in credencialesError){
+      if(credencialesError[error] !== ""){
+        setRegisterAct(false);
         return;
       }
     }
 
+    for(let vacio in credenciales){
+      if(credenciales[vacio] === ""){
+        setRegisterAct(false);
+        return;
+      }
+    }
+
+    
+    for(let validated in valiCredenciales){
+      if(valiCredenciales[validated] === false){
+        setRegisterAct(false);
+        return;
+      }
+    }
+    //si llegamos a este punto es porque no hemos encontrado ningún error en el for in que recorre el hook de errores
     setRegisterAct(true);
-  }, [credenciales]);
+  });
 
   //Funcion de validacion
 
   const checkError = (e) => {
-    //La función checkError es la función que valida principalmente todo, primero
-    //declaramos error como comillas vacías, presuponiendo que cada vez que esto se compruebe, 
-    //no va a haber un error
 
 
     let error = "";
 
-    //llamamos a la función validate pasándole 3 parámetros, el nombre del campo a evaluar, su contenido y si es requerido o no
-    const validation = validate(
+    let checked = validate(
       e.target.name,
       e.target.value,
       e.target.required
     );
 
-    //guardamos en la variable error el mensaje de vuelta que pueden ser comillas vacías si no hay un error o un string largo si 
-    //hemos encontrado un error
-    error = validation.message;
+    error = checked.message;
 
-    //PARTE QUE NO FUNCIONA//
+    //Aqui seteamos el hook de las validaciones
+    console.log("asdfasdf",valiCredenciales)
 
-    setCredenciales((prevState) => ({
+    setValiCredenciales((prevState) => ({
       ...prevState,
-      [e.target.name]: validation.validated,
+      [e.target.name + "Vali"]: checked.validated,
     }));
-
-    ///////////////////////////
 
     //Aqui seteamos el hook de los errores
 
