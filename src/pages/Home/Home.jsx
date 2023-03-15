@@ -4,6 +4,9 @@ import { validate } from "../../helpers/useful";
 import "./Home.css";
 
 export const Home = () => {
+
+  //HOOKS............
+
   // 1 - Primero siempre se comprueba el valor de los hooks
   const [credenciales, setCredenciales] = useState({
     name: "",
@@ -26,6 +29,10 @@ export const Home = () => {
 
   const [registerAct, setRegisterAct] = useState(false);
 
+  ///////////////////////////////////////////////////////////////////
+
+  //HANDLERS
+
   const inputHandler = (e) => {
     //inputHandler será la función adecuada para controlar el contenido que estamos introduciendo
     //en los inputs, su forma de manejarlo será actualizar las partes correspondientes del hook según el input
@@ -40,13 +47,20 @@ export const Home = () => {
     }));
   };
 
+  //////////////////////////////////////////////////////////////////
+
+
+  //USEEFFECT
+
   //Funciones de ciclo de vida del componente, conocidas como useEffect
 
   // 3 - Ejecutamos los useEffect
 
+  //Este tipo de useEffect siempre se ejecuta cuando se actualice cualquier hook.....
   useEffect(() => {
  
 
+    //Recorremos el primer for in para ver si hay errores en las credenciales....
     for(let error in credencialesError){
       if(credencialesError[error] !== ""){
         setRegisterAct(false);
@@ -54,6 +68,7 @@ export const Home = () => {
       }
     }
 
+    //Recorremos las credenciales con otro for in para comprobar en este caso si algún campo se ha dejado por rellenar...
     for(let vacio in credenciales){
       if(credenciales[vacio] === ""){
         setRegisterAct(false);
@@ -61,7 +76,8 @@ export const Home = () => {
       }
     }
 
-    
+    //El último cortafuegos será un for in que recorrerá el hook valiCredenciales que mirará si todas las credenciales no sólo
+    //están rellenas, sino que también han sido validadas
     for(let validated in valiCredenciales){
       if(valiCredenciales[validated] === false){
         setRegisterAct(false);
@@ -72,6 +88,9 @@ export const Home = () => {
     setRegisterAct(true);
   });
 
+  ////////////////////////////////////////////////////////////
+
+  //FUNCIONES
   //Funcion de validacion
 
   const checkError = (e) => {
@@ -106,6 +125,9 @@ export const Home = () => {
   const fakeRegister = () => {
     console.log("victoria");
   };
+
+
+  /////////////////////////////////////////////////////
 
   // 2 - Se mira en la zona de renderizado...
   return (
@@ -161,6 +183,7 @@ export const Home = () => {
           registerAct ? "registerSendDeac registerSendAct" : "registerSendDeac"
         }
         onClick={
+          //Si el hook registerAct es true, el onclick nos permitirá ejecutar la función que haría el registro....
           registerAct
             ? () => {
                 fakeRegister();
