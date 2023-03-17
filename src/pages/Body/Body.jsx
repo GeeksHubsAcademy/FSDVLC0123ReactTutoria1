@@ -6,6 +6,7 @@ import { Profile } from "../Profile/Profile";
 import { Users } from "../Users/Users";
 
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Detail } from "../Detail/Detail";
 
 export const Body = () => {
   return (
@@ -16,6 +17,7 @@ export const Body = () => {
         <Route path="/login" element={<Login />}/>
         <Route path="/profile" element={<Profile />}/>
         <Route path="/users" element={<Users/>}/>
+        <Route path="/detail" element={<Detail/>}/>
       </Routes>
     </>
   );

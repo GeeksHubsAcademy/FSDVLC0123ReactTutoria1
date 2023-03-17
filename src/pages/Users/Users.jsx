@@ -5,14 +5,20 @@ import './Users.css';
 import { bringUsers } from '../../services/apiCalls';
 
 //Conexion a REDUX
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../userSlice";
+import { addChoosen } from '../detailSlice';
+
+import { useNavigate } from 'react-router-dom';
  
 export const Users = () => {
 
     const [users, setUsers] = useState([]);
 
     const ReduxCredentials = useSelector(userData);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(()=>{
 
@@ -32,7 +38,14 @@ export const Users = () => {
     },[users])
 
     const selected = (persona) => {
-        console.log(persona);
+        
+        //Primero guardo en RDX los datos escogidos...
+
+        dispatch(addChoosen({ choosenObject: persona }))
+
+        setTimeout(()=>{
+            navigate("/detail");
+        },500)
     }
 
      return (
@@ -48,7 +61,7 @@ export const Users = () => {
                                 return (
                                     <div 
                                         onClick={()=>selected(persona)} 
-                                        key={persona.id}>
+                                        key={persona._id}>
 
                                         {persona.name}
                                         
