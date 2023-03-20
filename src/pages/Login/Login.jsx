@@ -25,7 +25,7 @@ export const Login = () => {
   const [welcome, setWelcome] = useState("");
 
   useEffect(() => {
-    if (credentialsRdx.credentials.token) {
+    if (credentialsRdx.credentials?.token) {
       //Si No token...home redirect
       navigate("/");
     }

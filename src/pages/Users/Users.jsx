@@ -21,13 +21,14 @@ export const Users = () => {
     const navigate = useNavigate();
 
     useEffect(()=>{
-
         if(users.length === 0){
 
-            bringUsers(ReduxCredentials.credentials.token)
+            console.log(ReduxCredentials.credentials?.token)
+
+            bringUsers(ReduxCredentials.credentials?.token)
                 .then(
                     result => {
-
+                        console.log("xe viraaaaaa", result);
                         //Efectivamente, despues de traer los usuarios de la base de datos, los guardamos en el hook
                         setUsers(result.data.data)
                     }

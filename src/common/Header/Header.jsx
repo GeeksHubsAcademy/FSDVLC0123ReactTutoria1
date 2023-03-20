@@ -49,7 +49,7 @@ export const Header = () => {
 
   return (
     <div className="">
-      {datosCredencialesRedux.credentials.token ? (
+      {datosCredencialesRedux.credentials?.token ? (
         <div>
           <div>{datosCredencialesRedux?.credentials?.usuario?.name}</div>
           <div>logout</div>
